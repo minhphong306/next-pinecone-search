@@ -120,7 +120,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     // 5. Log the number of matches
     console.log(`Found ${queryResponse.matches?.length} matches...`)
     console.log(`Got vectors:`)
-    console.log(JSON.stringify(queryResponse.matches))
+    // console.log(JSON.stringify(queryResponse.matches))
     // 6. Log the question being asked
     console.log(`Asking question: ${question}...`);
     if (queryResponse.matches?.length) {
@@ -134,7 +134,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         }).join(" ");
         const result = await chain.call({
             input_documents: [new Document({ pageContent: concatenatedPageContent})],
-            question: `${question}, trả lời bằng thơ nhé`,
+            question: `${question}`,
         })
         // 10. log the answer
         console.log(`Answer: ${result.text}`)
