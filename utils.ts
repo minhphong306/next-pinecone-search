@@ -5,6 +5,7 @@ import {loadQAStuffChain} from "langchain/chains";
 import {Document} from "langchain/document";
 import {indexName, timeout} from './config'
 import {PineconeClient} from "@pinecone-database/pinecone";
+import { LlamaEmbeddings } from './extends/langchain/embeddings/llama';
 
 export const createPineconeIndex = async (
     client: PineconeClient,
@@ -60,7 +61,7 @@ export const updatePinecone = async (
         console.log(`Text split into ${chunks.length} chunks`);
         console.log(`Calling OpenAI's Embedding endpoint documents with ${chunks.length} text chunks ...`)
         // 6. Create OpenAI embeddings for documents
-        const embeddingsArrays = await new OpenAIEmbeddings().embedDocuments(
+        const embeddingsArrays = await new LlamaEmbeddings().embedDocuments(
             chunks.map((chunk) => chunk.pageContent.replace(/\n/g, " "))
         )
         console.log(`Creating ${chunks.length} vectors array with id, values, and metadata...`)
@@ -107,7 +108,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     // 2. Retrieve the Pinecone index
     const index = client.Index(indexName);
     // 3. Create query embedding
-    const queryEmbedding = await new OpenAIEmbeddings().embedQuery(question);
+    const queryEmbedding = await new LlamaEmbeddings().embedQuery(question);
     // 4. Query Pinecone index and return top 10 matches
     let queryResponse = await index.query({
         queryRequest: {

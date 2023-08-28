@@ -7,10 +7,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const client = new PineconeClient();
     await client.init({
-        // @ts-ignore
-        apiKey: process.env.PINECONE_API_KEY,
-        // @ts-ignore
-        environment: process.env.PINECONE_ENVIRONMENT,
+        apiKey: process.env.PINECONE_API_KEY!,
+        environment: process.env.PINECONE_ENVIRONMENT!,
     })
 
     const text = await queryPineconeVectorStoreAndQueryLLM(client, indexName, body)

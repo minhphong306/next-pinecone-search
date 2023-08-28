@@ -17,7 +17,7 @@ export async function POST(){
     })
 
     const docs = await loader.load()
-    const vectorDimension = 1536
+    const vectorDimension = 4096
 
     const client = new PineconeClient();
     await client.init({
